@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">AircraftWar</string>
+    <string name="easymode">简单模式</string>
+    <string name="simplemode">普通模式</string>
+    <string name="hardmode">困难模式</string>
+    <string name="soundeffect">音效</string>
+    <string name="gameoverrank">游戏结束，请输入玩家姓名记录本局得分：</string>
+    <string name="ok">确认</string>
+    <string name="cancel">取消</string>
+    <string name="scorerank">得分排行榜</string>
+    <string name="delete">删除</string>
+    <string name="easy">难度：easy</string>
+    <string name="simple">难度：simple</string>
+    <string name="hard">难度：hard</string>
+    <string name="networking">模式：networking</string>
+    <string name="inputname">输入玩家名</string>
+    <string name="todo">TODO</string>
+    <string name="exit">退出游戏</string>
+    <string name="restart">重新开始</string>
+    <string name="ranktextview">排名</string>
+    <string name="nametextview">玩家名</string>
+    <string name="scoretextview">得分</string>
+    <string name="timetextview">时间</string>
+    <string name="networkingfight">联网对战</string>
+    <string name="standalonefight">单机游戏</string>
+    <string name="accountinputtextview">账号</string>
+    <string name="passwordinputtextview">密码</string>
+    <string name="accountinputhint">请输入玩家名</string>
+    <string name="passwordinputhint">请输入密码</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="cancelmatch">取消匹配</string>
+    <string name="waitfighters">正在匹配对手</string>
+    <string name="aircraftbgp">aircraft</string>
+    <string name="twoscores">双方得分</string>
+    <string name="skin">皮肤</string>
+
+</resources>

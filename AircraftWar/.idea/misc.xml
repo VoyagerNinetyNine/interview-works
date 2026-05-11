@@ -1,0 +1,33 @@
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Lenovo/self-made as projects/AircraftWar/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3575" />
+        <entry key="..\:/Lenovo/self-made as projects/AircraftWar/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
+        <entry key="..\:/Lenovo/self-made as projects/AircraftWar/app/src/main/res/layout/loginui.xml" value="0.3854166666666667" />
+        <entry key="..\:/Lenovo/self-made as projects/AircraftWar/app/src/main/res/layout/networkingrank.xml" value="0.38645833333333335" />
+        <entry key="..\:/Lenovo/self-made as projects/AircraftWar/app/src/main/res/layout/savescore.xml" value="0.38645833333333335" />
+        <entry key="..\:/Lenovo/self-made as projects/AircraftWar/app/src/main/res/layout/scorerank.xml" value="0.33" />
+        <entry key="..\:/Lenovo/self-made as projects/AircraftWar/app/src/main/res/layout/selectfightui.xml" value="0.37044433349975037" />
+        <entry key="..\:/Lenovo/self-made as projects/AircraftWar/app/src/main/res/layout/selectmode.xml" value="0.33" />
+        <entry key="..\:/Lenovo/self-made as projects/AircraftWar/app/src/main/res/layout/selectskin.xml" value="0.3854166666666667" />
+        <entry key="..\:/Lenovo/self-made as projects/AircraftWar/app/src/main/res/layout/selectui.xml" value="0.38645833333333335" />
+        <entry key="..\:/Lenovo/self-made as projects/AircraftWar/app/src/main/res/layout/waitfighters.xml" value="0.38645833333333335" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="jbr-21" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.1" />
+      </ProjectState>
+    </option>
+  </component>
+</project>

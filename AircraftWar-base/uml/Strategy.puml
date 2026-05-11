@@ -1,0 +1,44 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface ShootStrategy{
+    + shoot():List<AbstractBullet>
+    + setLocation(int aircraftLocationX, int aircraftLocationY):void
+}
+
+class StraightShoot{
+    + int aircraftLocationX
+    + int aircraftLocationY
+    + int aircraftSpeedY
+    + int direction
+    + int power
+    + int shootNum
+    + shoot():List<AbstractBullet>
+    + setLocation(int aircraftLocationX, int aircraftLocationY):void
+}
+
+class FloatShoot{
+    + int aircraftLocationX
+    + int aircraftLocationY
+    + int bulletSpeedX
+    + int aircraftSpeedY
+    + int direction
+    + int power
+    + int shootNum
+    + shoot():List<AbstractBullet>
+    + setLocation(int aircraftLocationX, int aircraftLocationY):void
+}
+
+class ShootContext{
+    + ShootStrategy strategy
+    + ShootContext():void
+    + setStrategy(ShootStrategy strategy):void
+    + executeStrategy():List<AbstractBullet>
+}
+
+ShootStrategy <|.. StraightShoot
+ShootStrategy <|.. FloatShoot
+
+ShootStrategy o-- ShootContext
+
+@enduml

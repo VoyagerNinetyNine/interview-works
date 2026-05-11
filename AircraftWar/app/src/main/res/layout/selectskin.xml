@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/doublehero"
+        android:layout_width="109dp"
+        android:layout_height="91dp"
+        android:layout_marginStart="151dp"
+        android:layout_marginTop="133dp"
+        android:layout_marginEnd="151dp"
+        android:clickable="true"
+        android:contentDescription="@string/cancel"
+        android:visibility="visible"
+        android:src="@drawable/myplane1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/myplane1"
+        tools:visibility="visible"
+        android:focusable="true" />
+
+    <ImageView
+        android:id="@+id/singlehero"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="155dp"
+        android:layout_marginTop="62dp"
+        android:layout_marginEnd="156dp"
+        android:layout_marginBottom="51dp"
+        android:clickable="true"
+        android:contentDescription="@string/cancelmatch"
+        android:visibility="visible"
+        android:src="@drawable/hero"
+        app:layout_constraintBottom_toTopOf="@+id/tripleplane"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/doublehero"
+        app:srcCompat="@drawable/hero"
+        tools:visibility="visible"
+        android:focusable="true" />
+
+    <ImageView
+        android:id="@+id/tripleplane"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="145dp"
+        android:layout_marginEnd="146dp"
+        android:layout_marginBottom="240dp"
+        android:clickable="true"
+        android:contentDescription="@string/ok"
+        android:visibility="visible"
+        android:src="@drawable/bossplane"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/bossplane"
+        tools:visibility="visible"
+        android:focusable="true" />
+</androidx.constraintlayout.widget.ConstraintLayout>

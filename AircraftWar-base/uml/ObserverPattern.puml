@@ -1,0 +1,42 @@
+@startuml
+class Publisher{
+    - List<Subscribers> subscribers
+    + addSubscriber(Subscribers subscriber):void
+    + addSubscribers(List<? extends Subscribers> subscriber):void
+    + deleteSubscriber(Subscribers subscriber):void
+    + notifySubscribers():void
+}
+
+interface Subscribers{
+    + update():void
+}
+
+class EliteEnemy{
+    + EliteEnemy():void
+    + move():void
+    + shoot():List<AbstractBullet>
+    + update():void
+}
+
+class MobEnemy{
+    + MobEnemy():void
+    + move():void
+    + shoot():List<AbstractBullet>
+    + update():void
+}
+
+abstract class AbstractBullet{
+        - int power
+        + AbstractBullet(int locationX, int locationY, int speedX, int speedY, int power):void
+        + forward():void
+        + getPower():int
+        + update():void
+}
+
+Subscribers <|.. EliteEnemy
+Subscribers <|.. MobEnemy
+Subscribers <|.. AbstractBullet
+
+Subscribers o-- Publisher
+
+@enduml

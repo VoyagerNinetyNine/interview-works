@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class AbstractAircraft{
+    # int maxHp
+    # int hp
+    + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp):void
+    + decreaseHp(int decrease):void
+    + getHp():int
+    + {abstract} shoot():List<Bullet>
+}
+
+class HeroAircraft{
+    - static HeroAircraft instance
+    - ShootStrategy strategy
+    - HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp):void
+    + forward():void
+    + shoot():List<AbstractBullet>
+    + setStrategyKind(ShootStrategy strategyKind):void
+    + static getInstance():HeroAircraft
+}
+
+
+AbstractAircraft <|-- HeroAircraft
+HeroAircraft <-- HeroAircraft
+
+
+@enduml

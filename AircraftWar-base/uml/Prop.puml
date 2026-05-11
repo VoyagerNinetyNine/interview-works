@@ -1,0 +1,55 @@
+@startuml
+'https://plantuml.com/class-diagram
+abstract class AbstractProp{
+    + AbstractProp(int locationX, int locationY, int speedX, int speedY):void
+    + forward():void
+}
+
+interface propAction{
+    + action():void
+}
+
+interface PropFactory{
+    + createProp(int locationX, int locationY, int speedX, int speedY):propAction
+}
+
+class BloodSupplyProp{
+    + BloodSupplyProp(int locationX, int locationY, int speedX, int speedY):void
+    + action():void
+}
+
+class BombSupplyProp{
+    + BombSupplyProp(int locationX, int locationY, int speedX, int speedY):void
+    + action():void
+}
+
+class FireSupplyProp{
+    + FireSupplyProp(int locationX, int locationY, int speedX, int speedY):void
+    + action():void
+}
+
+class BloodSupplyPropFactory{
+    + createProp(int locationX, int locationY, int speedX, int speedY):BloodSupplyProp
+}
+
+class BombSupplyPropFactory{
+    + createProp(int locationX, int locationY, int speedX, int speedY):BombSupplyProp
+}
+
+class FireSupplyPropFactory{
+    + createProp(int locationX, int locationY, int speedX, int speedY):FireSupplyProp
+}
+
+AbstractProp <|-- BloodSupplyProp
+AbstractProp <|-- BombSupplyProp
+AbstractProp <|-- FireSupplyProp
+
+propAction <|.. BombSupplyProp
+propAction <|.. FireSupplyProp
+propAction <|.. BloodSupplyProp
+propAction <..PropFactory
+
+PropFactory <|-- BloodSupplyPropFactory
+PropFactory <|-- BombSupplyPropFactory
+PropFactory <|-- FireSupplyPropFactory
+@enduml

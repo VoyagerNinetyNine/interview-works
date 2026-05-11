@@ -1,0 +1,38 @@
+@startuml
+
+interface ScoreDAO{
+        + findByName(String name):void
+        + getAllScores():List<ScoreDocument>
+        + doAdd(ScoreDocument score):void
+        + doDelete(String time):void
+}
+
+class ScoreDocument{
+    - int score
+    - String name
+    - String time
+    + ScoreDocument(int score, String name, String time):void
+    + setName(String name):void
+    + getScore():int
+    + getName():String
+    + getTime():String
+}
+
+class ScoreDAOImpl{
+    - List<ScoreDocument> scores
+    - String path
+    + ScoreDAOImpl():void
+    + findByName(String name):void
+    + getAllScores():List<ScoreDocument>
+    + doAdd(ScoreDocument score):void
+    + doDelete(String time):void
+    + sortByScore():void
+    + save():void
+    + deteleByRank(int rank):void
+}
+
+ScoreDAO <|.. ScoreDAOImpl
+
+ScoreDocument <-- ScoreDAOImpl
+
+@enduml

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/accountinput"
+        android:layout_width="336dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="218dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="10dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/accountinputhint"
+        android:inputType="textEmailAddress"
+        android:textColorHint="#757575"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/passwordinput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/accountinputtextview"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/accountinputtextview"
+        style="@style/Widget.AppCompat.TextView"
+        android:layout_width="55dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="230dp"
+        android:layout_marginEnd="1dp"
+        android:gravity="center"
+        android:text="@string/accountinputtextview"
+        android:textColor="#090909"
+        android:textSize="16sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/passwordinputtextview"
+        app:layout_constraintEnd_toStartOf="@+id/accountinput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/passwordinputtextview"
+        style="@style/Widget.AppCompat.TextView"
+        android:layout_width="55dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="42dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="56dp"
+        android:gravity="center"
+        android:text="@string/passwordinputtextview"
+        android:textColor="#090909"
+        android:textSize="16sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/loginbutton"
+        app:layout_constraintEnd_toStartOf="@+id/passwordinput"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/accountinputtextview"
+        tools:visibility="visible" />
+
+    <EditText
+        android:id="@+id/passwordinput"
+        android:layout_width="336dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="54dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/passwordinputhint"
+        android:inputType="textPassword"
+        android:textColorHint="#757575"
+        app:layout_constraintBottom_toTopOf="@+id/loginbutton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/passwordinputtextview"
+        app:layout_constraintTop_toBottomOf="@+id/accountinput" />
+
+    <Button
+        android:id="@+id/loginbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginEnd="111dp"
+        android:layout_marginBottom="305dp"
+        android:text="@string/login"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/registerbutton"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/registerbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="305dp"
+        android:text="@string/register"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible" />
+</androidx.constraintlayout.widget.ConstraintLayout>

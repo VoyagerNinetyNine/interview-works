@@ -1,0 +1,137 @@
+@startuml
+
+abstract class AbstractFlyingObject{
+    # int locationX
+    # int locationY
+    # int speedX
+    # int speedY
+    # BufferedImage image
+    # int width
+    # int height
+    # boolean isValid
+
+    + AbstractFlyingObject(int locationX, int locationY, int speedX, int speedY):void
+    + forward():void
+    + crash(FlyingObject flyingObject):boolean
+    + setLocation(double locationX, double locationY):void
+    + getLocationX():int
+    + getLocationY():int
+    + getSpeedY():int
+    + getImage():BufferedImage
+    + getWidth():int
+    + getHeight():int
+    + notValid():boolean
+    + vanish():void
+}
+
+abstract class AbstractAircraft{
+	# int maxHp
+    # int hp
+    + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp):void
+    + decreaseHp(int decrease):void
+    + getHp():int
+    + {abstract} shoot():List<Bullet>
+}
+
+class HeroAircraft{
+    - static HeroAircraft instance
+    - ShootStrategy strategy
+    - HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp):void
+    + forward():void
+    + shoot():List<AbstractBullet>
+    + setStrategyKind(ShootStrategy strategyKind):void
+    + static getInstance():HeroAircraft
+}
+
+class MobEnemy{
+    + MobEnemy():void
+    + move():void
+    + shoot():List<AbstractBullet>
+    + update():void
+}
+
+class EliteEnemy{
+    + EliteEnemy():void
+    + move():void
+    + shoot():List<AbstractBullet>
+    + update():void
+}
+
+class BossEnemy{
+    + BossEnemy():void
+    + move():void
+    + shoot():List<AbstractBullet>
+}
+
+abstract class AbstractProp{
+    + AbstractProp(int locationX, int locationY, int speedX, int speedY):void
+    + forward():void
+}
+
+interface propAction{
+    + action():void
+}
+
+class BloodSupplyProp{
+    + BloodSupplyProp(int locationX, int locationY, int speedX, int speedY):void
+    + action():void
+}
+
+class BombSupplyProp{
+    + BombSupplyProp(int locationX, int locationY, int speedX, int speedY):void
+    + action():void
+}
+
+class FireSupplyProp{
+    + FireSupplyProp(int locationX, int locationY, int speedX, int speedY):void
+    + action():void
+}
+
+abstract class AbstractBullet{
+    - int power
+    + AbstractBullet(int locationX, int locationY, int speedX, int speedY, int power):void
+    + forward():void
+    + getPower():int
+    + update():void
+}
+
+class EnemyAbstractBullet{
+    + EnemyAbstractBullet(int locationX, int locationY, int speedX, int speedY, int power):void
+}
+
+class HeroAbstractBullet{
+    + HeroAbstractBullet(int locationX, int locationY, int speedX, int speedY, int power):void
+}
+
+interface Subscribers{
+    + update():void
+}
+
+AbstractFlyingObject <|-- AbstractAircraft
+AbstractFlyingObject <|-- AbstractBullet
+AbstractFlyingObject <|-- AbstractProp
+
+AbstractAircraft <|-- HeroAircraft
+AbstractAircraft <|-- MobEnemy
+AbstractAircraft <|-- EliteEnemy
+AbstractAircraft <|-- BossEnemy
+
+AbstractBullet <|-- HeroAbstractBullet
+AbstractBullet <|-- EnemyAbstractBullet
+
+AbstractProp <|-- BloodSupplyProp
+AbstractProp <|-- FireSupplyProp
+AbstractProp <|-- BombSupplyProp
+
+propAction <|.. BombSupplyProp
+propAction <|.. FireSupplyProp
+propAction <|.. BloodSupplyProp
+
+Subscribers <|.. AbstractBullet
+Subscribers <|.. EliteEnemy
+Subscribers <|.. MobEnemy
+Subscribers <|.. AbstractBullet
+
+
+
+@enduml

@@ -1,0 +1,122 @@
+@startuml
+
+interface EnemyAction{
+    + move():void
+    + shoot():List<AbstractBullet>
+}
+
+interface EnemyAircraftFactory{
+    + createEnemyAircraft():EnemyAction
+}
+
+abstract class AbstractAircraft
+{
+	# int maxHp
+    # int hp
+    + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp):void
+    + decreaseHp(int decrease):void
+    + getHp():int
+    + {abstract} shoot():List<Bullet>
+}
+
+class BossEnemy{
+    - int direct
+    - int power
+    + BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp):void
+    + move():void
+    + shoot():List<AbstractBullet>
+}
+
+class EliteEnemy{
+        - int direct
+        - int power
+        + EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp):void
+        + move():void
+        + shoot():List<AbstractBullet>
+}
+
+class MobEnemy{
+        + MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp):void
+        + move():void
+        + shoot():List<AbstractBullet>
+}
+
+class BossEnemyFactory{
+    + createEnemyAircraft():BossEnemy
+}
+
+class EliteEnemyFactory{
+    + createEnemyAircraft():EliteEnemy
+}
+
+class MobEnemyFactory{
+    + createEnemyAircraft():MobEnemy
+}
+
+abstract class AbstractProp{
+    + AbstractProp(int locationX, int locationY, int speedX, int speedY):void
+    + forward():void
+}
+
+interface propAction{
+    + action():void
+}
+
+interface PropFactory{
+    + createProp(int locationX, int locationY, int speedX, int speedY):propAction
+}
+
+class BloodSupplyProp{
+    + BloodSupplyProp(int locationX, int locationY, int speedX, int speedY):void
+    + action():void
+}
+
+class BombSupplyProp{
+    + BombSupplyProp(int locationX, int locationY, int speedX, int speedY):void
+    + action():void
+}
+
+class FireSupplyProp{
+    + FireSupplyProp(int locationX, int locationY, int speedX, int speedY):void
+    + action():void
+}
+
+class BloodSupplyPropFactory{
+    + createProp(int locationX, int locationY, int speedX, int speedY):BloodSupplyProp
+}
+
+class BombSupplyPropFactory{
+    + createProp(int locationX, int locationY, int speedX, int speedY):BombSupplyProp
+}
+
+class FireSupplyPropFactory{
+    + createProp(int locationX, int locationY, int speedX, int speedY):FireSupplyProp
+}
+
+AbstractProp <|-- BloodSupplyProp
+AbstractProp <|-- BombSupplyProp
+AbstractProp <|-- FireSupplyProp
+
+propAction <|.. BombSupplyProp
+propAction <|.. FireSupplyProp
+propAction <|.. BloodSupplyProp
+propAction <..PropFactory
+
+PropFactory <|-- BloodSupplyPropFactory
+PropFactory <|-- BombSupplyPropFactory
+PropFactory <|-- FireSupplyPropFactory
+
+AbstractAircraft <|-- BossEnemy
+AbstractAircraft <|-- EliteEnemy
+AbstractAircraft <|-- MobEnemy
+
+EnemyAction <|.. BossEnemy
+EnemyAction <|.. EliteEnemy
+EnemyAction <|.. MobEnemy
+EnemyAction <.. EnemyAircraftFactory
+
+EnemyAircraftFactory <|-- BossEnemyFactory
+EnemyAircraftFactory <|-- MobEnemyFactory
+EnemyAircraftFactory <|-- EliteEnemyFactory
+
+@enduml

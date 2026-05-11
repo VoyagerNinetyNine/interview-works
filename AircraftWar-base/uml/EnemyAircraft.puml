@@ -1,0 +1,65 @@
+@startuml
+'https://plantuml.com/class-diagram
+interface EnemyAction{
+    + move():void
+    + shoot():List<AbstractBullet>
+}
+
+interface EnemyAircraftFactory{
+    + createEnemyAircraft():EnemyAction
+}
+
+abstract class AbstractAircraft{
+	# int maxHp
+    # int hp
+    + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp):void
+    + decreaseHp(int decrease):void
+    + getHp():int
+    + {abstract} shoot():List<Bullet>
+}
+
+class BossEnemy{
+    + BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp):void
+    + move():void
+    + shoot():List<AbstractBullet>
+}
+
+class EliteEnemy{
+        + EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp):void
+        + move():void
+        + shoot():List<AbstractBullet>
+        + update():void
+}
+
+class MobEnemy{
+        + MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp):void
+        + move():void
+        + shoot():List<AbstractBullet>
+        + update():void
+}
+
+class BossEnemyFactory{
+    + createEnemyAircraft():BossEnemy
+}
+
+class EliteEnemyFactory{
+    + createEnemyAircraft():EliteEnemy
+}
+
+class MobEnemyFactory{
+    + createEnemyAircraft():MobEnemy
+}
+
+AbstractAircraft <|-- BossEnemy
+AbstractAircraft <|-- EliteEnemy
+AbstractAircraft <|-- MobEnemy
+
+EnemyAction <|.. BossEnemy
+EnemyAction <|.. EliteEnemy
+EnemyAction <|.. MobEnemy
+EnemyAction <.. EnemyAircraftFactory
+
+EnemyAircraftFactory <|-- BossEnemyFactory
+EnemyAircraftFactory <|-- MobEnemyFactory
+EnemyAircraftFactory <|-- EliteEnemyFactory
+@enduml

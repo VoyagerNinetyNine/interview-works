@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginEnd="268dp"
+        android:text="@string/networking"
+        android:textColor="#F3DB0A"
+        android:textSize="16sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="173dp"
+        android:layout_marginTop="94dp"
+        android:layout_marginEnd="174dp"
+        android:text="@string/twoscores"
+        android:textColor="#050505"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/netrestartbutton"
+        android:layout_width="142dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="27dp"
+        android:text="@string/restart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/netexitbutton"
+        android:layout_width="142dp"
+        android:layout_height="49dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="27dp"
+        android:text="@string/exit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TableLayout
+        android:id="@+id/nettablelayout"
+        android:layout_width="match_parent"
+        android:layout_height="399dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+        <TableRow
+            android:id="@+id/nettablerowlable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/netranktextview"
+                android:layout_width="42dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/ranktextview"
+                android:textColor="#3949AB"
+                android:textSize="16sp"
+                android:visibility="visible"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/netnametextview"
+                android:layout_width="101dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/nametextview"
+                android:textColor="#3949AB"
+                android:textSize="16sp"
+                android:visibility="visible"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/netscoretextview"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/scoretextview"
+                android:textColor="#3949AB"
+                android:textSize="16sp"
+                android:visibility="visible"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/nettimetextview"
+                android:layout_width="168dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/timetextview"
+                android:textColor="#3949AB"
+                android:textSize="16sp"
+                android:visibility="visible"
+                tools:visibility="visible" />
+        </TableRow>
+    </TableLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

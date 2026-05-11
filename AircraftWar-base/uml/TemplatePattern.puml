@@ -1,0 +1,89 @@
+@startuml
+abstract class GameTemplate{
+        - int backGroundTop
+        - final ScheduledExecutorService executorService
+        protected final int timeInterval
+        protected final Random r
+        - final HeroAbstractAircraft heroAircraft
+        - final List<AbstractBullet> heroAbstractBullets
+        - final List<AbstractBullet> enemyAbstractBullets
+        - final List<FireSupplyProp> fireProps
+        - final List<BloodSupplyProp> bloodProps
+        - final List<BombSupplyProp> bombProps
+        protected final List<MobEnemy> mobEnemy
+        protected final List<EliteEnemy> eliteEnemy
+        protected final List<BossEnemy> bossEnemy
+        - final BloodSupplyPropFactory bloodPropFactory
+        - final BombSupplyPropFactory bombPropFactory
+        - final FireSupplyPropFactory firePropFactory
+        protected final BossEnemyFactory bossEnemyFactory
+        protected final MobEnemyFactory mobEnemyFactory
+        protected final EliteEnemyFactory eliteEnemyFactory
+        protected int enemyMaxNumber
+        - boolean gameOverFlag
+        protected static int score
+        protected int time
+        protected int bossAppearScore
+        - int cycleTime
+        + static String path
+        - int gameBegin
+        - int heroBulletHit
+        - int bombExplode
+        - int heroGetSupply
+        - int gameOver
+        protected int bossAppeared
+        - int heroShoot
+        - int bossBgmOn
+        + int actioningFirePropNumber
+        - final MusicThread gameBeginThread
+        - final MusicThread heroBulletHitThread
+        - final MusicThread bombExplodeThread
+        - final MusicThread heroGetSupplyThread
+        - final MusicThread gameOverThread
+        protected final MusicThread bossOnStageThread
+        - final MusicThread heroShootThread
+        + static Publisher publisher
+        + int cycleDuration
+        + int eliteGeneratePossibility
+        protected int bossThreshold
+        + GameTemplate():void
+        + final action():void
+        - timeCountAndNewCycleJudge():boolean
+        - shootAction():void
+        - bulletMoveAction():void
+        - propMoveAction():void
+        - aircraftMoveAction():void
+        - crashCheckAction():void
+        - postProcessAction():void
+        + paint(Graphics g):void
+        - paintImageWithPositionRevised(Graphics g, List<? extends AbstractFlyingObject> objects):void
+        - paintScoreAndLife(Graphics g):void
+        + abstract displayRank(String date) throws InterruptedException:void
+        + final playMusic():void
+        + static addScore(int number):void
+        + abstract bossGenerate():void
+        + abstract upgradeDifficulty():void
+}
+
+class EasyModeGame{
+        + abstract displayRank(String date) throws InterruptedException:void
+        + abstract bossGenerate():void
+        + abstract upgradeDifficulty():void
+}
+
+class SimpleModeGame{
+        + abstract displayRank(String date) throws InterruptedException:void
+        + abstract bossGenerate():void
+        + abstract upgradeDifficulty():void
+}
+
+class HardModeGame{
+        + abstract displayRank(String date) throws InterruptedException:void
+        + abstract bossGenerate():void
+        + abstract upgradeDifficulty():void
+}
+
+GameTemplate <|-- EasyModeGame
+GameTemplate <|-- SimpleModeGame
+GameTemplate <|-- HardModeGame
+@enduml
