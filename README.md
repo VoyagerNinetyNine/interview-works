@@ -1,12 +1,14 @@
-1.
-AircraftWar是用Android Studio开发的手机端的飞机大战小游戏。
-AircraftWarServer是AircraftWar里面的联网对战功能所用到的服务器，需要用IJ专业版启动，并配置tomcat
+### 项目说明
 
-2.
-AircraftWar是用IJ开发的windows端的飞机大战小游戏.
+1. **AircraftWar (Android版)**
+   - 是用 Android Studio 开发的手机端的飞机大战小游戏。
+   - 里面的 `AircraftWarServer` 是联网对战功能用到的服务器，需要用 IJ 专业版启动，并配置 tomcat。
 
-3.
-voyager是用vue开发的前端，为了减少大小，把瓦片地图数据和node_modules删除了
+2. **AircraftWar-base (Windows版)**
+   - 是用 IJ 开发的 windows 端的飞机大战小游戏。
 
-4.
-html是用html开发的前端
+3. **voyager**
+   - 是用 vue 开发的前端，为了减少大小，把瓦片地图数据和 node_modules 删除了。
+
+4. **html**
+   - 是用 html 开发的前端。
