@@ -1,0 +1,551 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #29559d, #1bdfc1, #20aad0);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    height: 100vh;
+    overflow: hidden;
+    color: #333;
+    padding-top: 70px;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    height: calc(100vh - 70px);
+}
+
+/* 选项卡标题栏样式 */
+.tabs-header {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    padding: 0 20px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+    background: transparent;
+    border: none;
+    color: #555;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    outline: none;
+    max-width: 200px;
+    overflow: hidden;
+}
+
+.tab-btn i {
+    margin-right: 10px;
+}
+
+.tab-btn:hover {
+    color: #3498db;
+}
+
+.tab-btn.active {
+    color: #e74c3c;
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #e74c3c;
+    animation: underline 0.4s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+@keyframes underline {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+}
+
+/* 选项卡内容区域样式 */
+.tabs-content {
+    height: 100%;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.tab-pane {
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    height: 100%;
+    display: none;
+    overflow-y: auto;
+    animation: fadeIn 0.6s;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.tab-title {
+    font-size: 32px;
+    margin-bottom: 0px;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+}
+
+.tab-title i {
+    margin-right: 15px;
+    background: #3498db;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-content {
+    padding: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background:  rgba(255, 255, 255, 0.1);
+}
+
+.card:has(.inquire-button) {
+    display: flex;          /* 启用Flex布局 */
+    justify-content: center; /* 水平居中 */
+    align-items: center;    /* 垂直居中 */
+    padding: 10px;          /* 添加内边距 */
+    background:  rgba(255, 255, 255, 0.1);
+}
+
+.card h3 {
+    color: #3498db;
+    margin-bottom: 15px;
+}
+
+.card p {
+    color: #555;
+    line-height: 1.8;
+}
+
+.input_parameters {
+    display: flex;
+    justify-content: space-around;
+    margin: 0px 0px;
+    text-align: center;
+}
+
+.parameter {
+    background: rgba(52, 152, 219, 0.1);
+    padding: 15px;
+    border-radius: 12px;
+    flex: 1;
+    margin: 0 10px;
+    transition: transform 0.3s ease;
+}
+
+.parameter:hover {
+    transform: scale(1.05);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .tabs-header {
+        flex-wrap: wrap;
+        padding: 10px 0;
+    }
+    
+    .tab-btn {
+        padding: 15px 10px;
+        font-size: 16px;
+        max-width: none;
+    }
+    
+    .tab-title {
+        font-size: 26px;
+    }
+    
+    .input_parameters {
+        flex-direction: column;
+    }
+    
+    .parameter {
+        margin: 10px 0;
+    }
+
+    select {
+        width: 100%;
+        font-size: 14px;
+        padding: 8px;
+    }
+}
+
+/* 在index.css中添加 */
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* 两列布局 */
+    gap: 20px;
+    height: 65%;
+    border-radius: 12px;
+}
+
+.input-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* 两列布局 */
+    gap: 20px;
+    height: auto;
+    margin-top: 0px;
+    padding: 10px 0px 20px 0px;
+}
+
+.input-left-column {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(70, 130, 180, 0.1);
+}
+
+.input-right-column {
+    flex-direction: column;
+    background-color: rgba(152, 251, 152, 0.15);
+}
+
+.input-left-column, .input-right-column {
+    padding: 15px;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+
+.input-left-column:hover, .input-right-column:hover {
+    transform: scale(1.03);
+}
+
+.sst-content-grid {
+    display: grid;
+    grid-template-columns: 1fr 3fr; /* 两列布局 */
+    gap: 20px;
+    height: 65%;
+}
+
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.right-column {
+    height: 100%;
+}
+
+.right-column .card {
+    height: calc(100% - 20px); /* 补偿gap高度 */
+}
+
+.map-marker {
+    line-height: 0;
+    position: relative;
+    color: #e74c3c;
+    padding: 0 0 0 0;
+    top: calc(0% - 30px);
+    left: calc(0% - 15px);
+    height: 30px;
+    width: 30px;
+    font-size: 30px;
+    text-align: center;
+}
+
+/* .legend {
+    display: flex;    
+    flex-direction: row; 
+    gap: 20px;      
+    padding: 0px;
+    border-radius: 4px;
+    justify-content: center;
+} */
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend {
+    position: absolute;  /* 使用绝对定位 */
+    top: 10px;           /* 距离顶部 10px */
+    left: 50px;          /* 距离左侧 10px */
+    z-index: 10;         /* 确保图例在图表上方 */
+    background: rgba(255, 255, 255, 0.5); /* 半透明背景 */
+    padding: 5px 5px;   /* 内边距 */
+    border-radius: 6px;  /* 圆角 */
+    border: 1px solid #ddd; /* 边框 */
+    display: none;
+}
+
+.legend-color {
+    width: 20px;
+    height: 4px;
+    border-radius: 2px;
+}
+
+.legeng-item span {
+    font-size: 12px;
+}
+
+.img-block {
+    display: block; /* 保持原有显示方式 */
+    position: relative;
+    height: 360px;
+}
+
+.map {
+    height: 300px;
+    position: absolute;
+    top: 30px;
+}
+
+/* 修改index.css */
+.inquire-button {
+    padding: 7px 60px;
+    font-size: 15px;
+    background: linear-gradient(135deg, #3498db, #3498db);
+    color: white;
+    border-radius: 30px;
+    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+    transition: all 0.3s;
+    border: #1bdfc1;
+    cursor: pointer;
+}
+
+.inquire-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(52, 152, 219, 0.4);
+}
+
+.input_parameters + .input_parameters {
+    margin-top: 15px;
+}
+
+.tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.65);
+    border: 1px solid #00d2ff;
+    border-radius: 5px;
+    padding: 10px;
+    color: white;
+    font-size: 14px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 10;
+    min-width: 150px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.tooltip-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.tooltip-label {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tooltip-label span:first-child {
+    color: #aaa;
+    margin-right: 10px;
+}
+
+.tooltip-value {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tooltip-value span:first-child {
+    color: #aaa;
+    margin-right: 10px;
+}
+
+.chart {
+    position: relative;
+    width: 100%;
+    height: 400;
+}
+
+.custom-checkbox {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(0, 13, 22, 0.501);
+    border-radius: 4px;
+}
+
+select option {
+    color: rgb(0, 0, 0);
+    background: rgb(239 252 250);
+}
+
+.t-date-picker__panel, .t-date-range-picker__panel {
+    background-color: #effafa;
+}
+
+.t-input.t-is-readonly {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* 复选框 */
+.checkbox-container input[type="checkbox"] {
+    display: none;
+}
+
+/* 创建自定义复选框 */
+.checkbox-container label {
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 1.5;
+    top: 50%;
+}
+
+/* 自定义复选框的方框 */
+.checkbox-container label::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    border: 1px solid #ccc;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 3px;
+    transition: all 0.2s;
+}
+
+/* 选中状态下的背景色 */
+.checkbox-container input[type="checkbox"]:checked + label::before {
+    background-color: #45a3fac9; /* 选中时的背景色 */
+    border-color: #1890ff;
+}
+
+/* 添加勾选标记 */
+.checkbox-container input[type="checkbox"]:checked + label::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 7px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* 加载遮罩 */
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 2000; /* 确保在最高层 */
+    pointer-events: auto; /* 阻止下层交互 */
+}
+
+.loading-spinner {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+.loading-text {
+    margin-top: 20px;
+    color: white;
+    font-size: 18px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.img-container{
+    display: flex; 
+    align-items: center;
+    justify-content: flex-start;
+    background-color: rgba(255, 255, 255, 0.1);
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.img-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.img-container h3{
+    color: #3498db;
+    margin-bottom: 15px;
+}
+
+.inquire-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: gray;
+}
+
+.svg-wapper {
+    position: relative;
+}
+

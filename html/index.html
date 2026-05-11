@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<!-- 安装第三方库 npm i tdesign-vue-next -->
+<html>
+    <head>
+        <title>display</title>
+        <meta charset="UTF-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="mege">
+
+        <link rel="icon" href="./images/logo.png" type="image/png">
+
+        <link rel="stylesheet" href="./css/index.css"></link>
+        <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/tdesign-vue-next/dist/tdesign.min.css">
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="https://unpkg.com/tdesign-vue-next/dist/tdesign.min.js"></script> -->
+        <link rel="stylesheet" href="./css/all.min.css">
+        <link rel="stylesheet" href="./css/flatpickr.min.css">
+        <link rel="stylesheet" href="./css/tdesign.min.css">
+
+        <script src="./js/vue.global.js"></script>
+        <script src="./js/tdesign.min.js"></script>
+        <script src="./js/index.js"></script>
+        
+    </head>
+
+    <body>
+        <!-- 选项卡标题栏 -->
+        <div class="tabs-header">
+            <button class="tab-btn active" data-tab="temperature">
+                <i class="fas fa-chart-line"></i> 温度廓线
+            </button>
+            <button class="tab-btn" data-tab="humidity">
+                <i class="fas fa-chart-line"></i> 湿度廓线
+            </button>
+            <button class="tab-btn" data-tab="sst">
+                <i class="fas fa-chart-line"></i> 海表温度
+            </button>
+            <button class="tab-btn" data-tab="precipitation">
+                <i class="fas fa-chart-line"></i> 降水强度
+            </button>
+            <button class="tab-btn" data-tab="cloud">
+                <i class="fas fa-chart-line"></i> 云光学厚度
+            </button>
+            <button class="tab-btn" data-tab="aerosol">
+                <i class="fas fa-chart-line"></i> 气溶胶光学厚度
+            </button>
+        </div>
+
+        <!-- 内容容器 -->
+        <div class="container">
+            <!-- 选项卡内容区域 -->
+            <div class="tabs-content">
+                <!-- 温度廓线内容 -->
+                <div id="temperature" class="tab-pane active">
+                    <div class="tab-title">
+                        <i class="fas fa-home"></i>
+                        <h1>温度廓线</h1>
+                    </div>
+                    
+                    <div class="input-grid"> 
+                        <div class="input-left-column">
+                            <div class="input_parameters"> 
+                                <div class="parameter">
+                                    <div>
+                                        <label class="parameter_label">地区：</label>
+                                        <select class="location-select custom-checkbox" name="location">
+                                            <option value="south">南海</option>
+                                            <option value="east">东海</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="parameter">
+                                    <label class="parameter_label">纬度：</label>
+                                    <select class="latitude-select custom-checkbox"></select>
+                                    <label class="parameter_label">经度：</label>
+                                    <select class="longitude-select custom-checkbox"></select>
+                                </div>
+                            </div> 
+
+                            <div class="input_parameters">
+                                <div class="parameter">
+                                    <div class="input-start-datetime">
+                                        <label class="parameter_label">输入数据开始时间：</label>
+                                        <t-date-picker class="input-start-date custom-checkbox"
+                                            v-model="timeValue"
+                                            size="small"
+                                            default-value=start_date
+                                            :disable-date="{ before: '2023-03-02', after: '2023-10-30' }"
+                                            enable-time-picker
+                                            :time-picker-props="{format: 'HH:mm:ss', steps: [1,15,60]}"
+                                            :presets="{'测试用例1':'2023-05-01 10:00', '测试用例2':'2023-06-01 12:00'}"
+                                            @change="updatePredictTime"
+                                        ></t-date-picker>
+                                    </div>       
+                                </div>     
+                                
+                                <div class="parameter">
+                                    <div>
+                                        <label class="parameter_label">预测时间：</label>
+                                        <select class="predict-time custom-checkbox"></select>
+                                    </div>
+                                </div>  
+                            </div>
+                        </div>
+
+                        <div class="input-right-column">
+                            <div class="input_parameters">
+                                <div class="parameter">
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" id="need-prompt-temperature" class="need-prompt">
+                                        <label for="need-prompt-temperature">使用南海探空气球实测数据作为真值</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="input_parameters">
+                                <div class="parameter">
+                                    <div>
+                                        <label class="parameter_label">测试用例：</label>
+                                        <select class="test-cases custom-checkbox" style="height: 26px;"></select>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+
+<!-- 
+                    <div class="input_parameters">
+                        <div class="parameter">
+                            <div>
+                                <label class="parameter_label">地区：</label>
+                                <select class="location-select custom-checkbox" name="location">
+                                    <option value="south">南海</option>
+                                    <option value="east">东海</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="parameter">
+                            <label class="parameter_label">纬度：</label>
+                            <select class="latitude-select custom-checkbox"></select>
+                            <script>    
+                                createFloatSelect(".latitude-select", south_max_lat, south_min_lat, lon_lat_interval);    // 南海纬度范围
+                            </script>
+                            <label class="parameter_label">经度：</label>
+                            <select class="longitude-select custom-checkbox"></select>
+                            <script>    
+                                createFloatSelect(".longitude-select", south_min_lon, south_max_lon, lon_lat_interval); // 南海经度范围
+                            </script>
+                        </div>
+
+                        <div class="parameter">
+                            <div class="checkbox-container">
+                                <input type="checkbox" id="need-prompt-temperature" class="need-prompt">
+                                <label for="need-prompt-temperature">使用实测数据作为真值</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input_parameters">
+                        <div class="parameter">
+                            <div class="input-start-datetime">
+                                <label class="parameter_label">输入数据开始时间：</label>
+                                <t-date-picker class="input-start-date custom-checkbox"
+                                    v-model="timeValue"
+                                    size="small"
+                                    default-value=start_date
+                                    :disable-date="{ before: '2023-03-02', after: '2023-10-30' }"
+                                    enable-time-picker
+                                    :time-picker-props="{format: 'HH:mm:ss', steps: [1,15,60]}"
+                                    :presets="{'测试用例1':'2023-05-01 10:00', '测试用例2':'2023-06-01 12:00'}"
+                                    @change="updatePredictTime"
+                                ></t-date-picker>
+                            </div>       
+                        </div>                        
+
+                        <div class="parameter">
+                            <div>
+                                <label class="parameter_label">预测时间：</label>
+                                <select class="predict-time custom-checkbox"></select>
+                            </div>
+                        </div>  
+                    </div> -->
+                    
+                    <div class="content-grid">
+                        <div class="left-column">
+                            <div class="card">
+                                <div class="card-content">
+                                    <h3>所选点位</h3>
+                                    <div class="img-block">
+                                        <img class="map" src="./images/south.png">
+                                        <div class="map-marker">
+                                            <i class="fas fa-location-dot"></i>
+                                        </div>
+                                    </div>
+                                    <p class="location-description"></p>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <button class="profile-inquire-button inquire-button">预测</button>
+                            </div>
+                        </div>
+
+                        <div class="right-column">
+                            <div class="card">
+                                <div class="card-content">
+                                    <h3>温度廓线图</h3>
+                                    <!-- <div class="legend">
+                                        <div class="legend-item">
+                                            <div class="legend-color" style="background: #00d2ff;"></div>
+                                            <span>预测值</span>
+                                        </div>
+                                        <div class="legend-item">
+                                            <div class="legend-color" style="background: #ff6b6b;"></div>
+                                            <span>真值</span>
+                                        </div>
+                                    </div> -->
+                                    <div class="svg-wapper">
+                                        <svg class="chart" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
+                                            <!-- 网格线 -->
+                                            <g stroke="#3a506b" stroke-width="1" stroke-dasharray="4,4">
+                                                <!-- 水平网格线 -->
+                                                <line x1="50" y1="100" x2="975" y2="100" />
+                                                <line x1="50" y1="200" x2="975" y2="200" />
+                                                <line x1="50" y1="300" x2="975" y2="300" />
+                                                <line x1="50" y1="400" x2="975" y2="400" />
+                                                
+                                                <!-- 垂直网格线 -->
+                                                <line x1="200" y1="0" x2="200" y2="450" />
+                                                <line x1="400" y1="0" x2="400" y2="450" />
+                                                <line x1="600" y1="0" x2="600" y2="450" />
+                                                <line x1="800" y1="0" x2="800" y2="450" />
+                                            </g>
+
+                                            <text class="mre-info" x="950" y="30" fill="red" text-anchor="end" font-size="24px"></text>
+
+                                            <defs>
+                                                <!-- 三角形箭头 -->
+                                                <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+                                                        refX="5" refY="3.5" orient="auto">
+                                                    <polygon points="0 0, 10 3.5, 0 7" fill="#080100"/>
+                                                </marker>
+                                            </defs>
+                                            
+                                            <!-- 坐标轴 -->
+                                            <g stroke="#080100" stroke-width="2">
+                                                <line x1="50" y1="450" x2="975" y2="450" marker-end="url(#arrowhead)"/> <!-- X轴 -->
+                                                <line x1="50" y1="450" x2="50" y2="10" marker-end="url(#arrowhead)"/>   <!-- Y轴 -->
+                                            </g>
+
+                                            <!-- 刻度值 -->
+                                            <g class="y-axis-labels"></g>
+                                            <g class="x-axis-labels"></g>
+                                            
+                                            <!-- 轴标题 -->
+                                            <text x="500" y="490" fill="#3498db" text-anchor="middle" font-size="16">压力层/hPa</text>
+                                            <text x="20" y="250" fill="#3498db" text-anchor="middle" font-size="16" transform="rotate(-90,20,250)">温度/K</text>
+                                            
+                                            <!-- 数据点组1（折线图） -->
+                                            <polyline class="line1" fill="none" stroke="#00d2ff" stroke-width="4" />
+                                            
+                                            <!-- 数据点组2（折线图） -->
+                                            <polyline class="line2" fill="none" stroke="#ff6b6b" stroke-width="4" />
+                                            
+                                            <!-- 数据点组1（散点） -->
+                                            <g class="points1"></g>
+                                            
+                                            <!-- 数据点组2（散点） -->
+                                            <g class="points2"></g>
+                                        </svg>
+
+                                        <div class="legend">
+                                            <div class="legend-item">
+                                                <div class="legend-color" style="background: #00d2ff;"></div>
+                                                <span>预测值</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color" style="background: #ff6b6b;"></div>
+                                                <span>真值</span>
+                                            </div>
+                                        </div>
+
+                                        <p class="test-case-description"></p>
+                                    </div>
+
+                                    <div class="tooltip"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 湿度廓线 -->
+                <div id="humidity" class="tab-pane">
+                    <div class="tab-title">
+                        <i class="fas fa-home"></i>
+                        <h1>湿度廓线</h1>
+                    </div>
+
+                    <div class="input-grid"> 
+                        <div class="input-left-column">
+                            <div class="input_parameters"> 
+                                <div class="parameter">
+                                    <div>
+                                        <label class="parameter_label">地区：</label>
+                                        <select class="location-select custom-checkbox" name="location">
+                                            <option value="south">南海</option>
+                                            <option value="east">东海</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="parameter">
+                                    <label class="parameter_label">纬度：</label>
+                                    <select class="latitude-select custom-checkbox"></select>
+                                    <label class="parameter_label">经度：</label>
+                                    <select class="longitude-select custom-checkbox"></select>
+                                </div>
+                            </div> 
+
+                            <div class="input_parameters">
+                                <div class="parameter">
+                                    <div class="input-start-datetime">
+                                        <label class="parameter_label">输入数据开始时间：</label>
+                                        <t-date-picker class="input-start-date custom-checkbox"
+                                            v-model="timeValue"
+                                            size="small"
+                                            default-value=start_date
+                                            :disable-date="{ before: '2023-03-02', after: '2023-10-30' }"
+                                            enable-time-picker
+                                            :time-picker-props="{format: 'HH:mm:ss', steps: [1,15,60]}"
+                                            :presets="{'测试用例1':'2023-05-01 10:00', '测试用例2':'2023-06-01 12:00'}"
+                                            @change="updatePredictTime"
+                                        ></t-date-picker>
+                                    </div>       
+                                </div>     
+                                
+                                <div class="parameter">
+                                    <div>
+                                        <label class="parameter_label">预测时间：</label>
+                                        <select class="predict-time custom-checkbox"></select>
+                                    </div>
+                                </div>  
+                            </div>
+
+                        </div>
+
+                        <div class="input-right-column">
+                            <div class="input_parameters">
+                                <div class="parameter">
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" id="need-prompt-humidity" class="need-prompt">
+                                        <label for="need-prompt-humidity">使用南海探空气球实测数据作为真值</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="input_parameters">
+                                <div class="parameter">
+                                    <div>
+                                        <label class="parameter_label">测试用例：</label>
+                                        <select class="test-cases custom-checkbox" style="height: 26px;"></select>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+
+<!--                     
+                    <div class="input_parameters">
+                        <div class="parameter">
+                            <div>
+                                <label class="parameter_label">地区：</label>
+                                <select class="location-select custom-checkbox" name="location">
+                                    <option value="south">南海</option>
+                                    <option value="east">东海</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="parameter">
+                            <label class="parameter_label">纬度：</label>
+                            <select class="latitude-select custom-checkbox"></select>
+                            <script>    
+                                createFloatSelect(".latitude-select", south_max_lat, south_min_lat, lon_lat_interval);    // 南海纬度范围
+                            </script>
+                            <label class="parameter_label">经度：</label>
+                            <select class="longitude-select custom-checkbox"></select>
+                            <script>    
+                                createFloatSelect(".longitude-select", south_min_lon, south_max_lon, lon_lat_interval); // 南海经度范围
+                            </script>
+                        </div>
+
+                        <div class="parameter">
+                            <div class="checkbox-container">
+                                <input type="checkbox" id="need-prompt-humidity" class="need-prompt">
+                                <label for="need-prompt-humidity">使用实测数据作为真值</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input_parameters">
+                        <div class="parameter">
+                            <div class="input-start-datetime">
+                                <label class="parameter_label">输入数据开始时间：</label>
+                                <t-date-picker class="input-start-date custom-checkbox"
+                                    v-model="timeValue"
+                                    size="small"
+                                    default-value=start_date
+                                    :disable-date="{ before: '2023-03-02', after: '2023-10-30' }"
+                                    enable-time-picker
+                                    :time-picker-props="{format: 'HH:mm:ss', steps: [1,15,60]}"
+                                    :presets="{'示例1':'2023-05-01 10:00', '示例2':'2023-06-01 12:00'}"
+                                    @change="updatePredictTime"
+                                ></t-date-picker>
+                            </div>       
+                        </div>                        
+
+                        <div class="parameter">
+                            <div>
+                                <label class="parameter_label">预测时间：</label>
+                                <select class="predict-time custom-checkbox"></select>
+                            </div>
+                        </div>  
+                    </div>
+                     -->
+                    <div class="content-grid">
+                        <div class="left-column">
+                            <div class="card">
+                                <div class="card-content">
+                                    <h3>所选点位</h3>
+                                    <div class="img-block">
+                                        <img class="map" src="./images/south.png">
+                                        <div class="map-marker">
+                                            <i class="fas fa-location-dot"></i>
+                                        </div>
+                                    </div>
+                                    <p class="location-description"></p>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <button class="profile-inquire-button inquire-button">预测</button>
+                            </div>
+                        </div>
+
+                        <div class="right-column">
+                            <div class="card">
+                                <div class="card-content">
+                                    <h3>湿度廓线图</h3>
+                                    <div class="svg-wapper">
+                                        <svg class="chart" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
+                                            <!-- 网格线 -->
+                                            <g stroke="#3a506b" stroke-width="1" stroke-dasharray="4,4">
+                                                <!-- 水平网格线 -->
+                                                <line x1="50" y1="100" x2="975" y2="100" />
+                                                <line x1="50" y1="200" x2="975" y2="200" />
+                                                <line x1="50" y1="300" x2="975" y2="300" />
+                                                <line x1="50" y1="400" x2="975" y2="400" />
+                                                
+                                                <!-- 垂直网格线 -->
+                                                <line x1="200" y1="0" x2="200" y2="450" />
+                                                <line x1="400" y1="0" x2="400" y2="450" />
+                                                <line x1="600" y1="0" x2="600" y2="450" />
+                                                <line x1="800" y1="0" x2="800" y2="450" />
+                                            </g>
+
+                                            <text class="mre-info" x="950" y="30" fill="red" text-anchor="end" font-size="24px"></text>
+
+                                            <defs>
+                                                <!-- 三角形箭头 -->
+                                                <marker id="arrowhead1" markerWidth="10" markerHeight="7" 
+                                                        refX="5" refY="3.5" orient="auto">
+                                                    <polygon points="0 0, 10 3.5, 0 7" fill="#080100"/>
+                                                </marker>
+                                            </defs>
+                                            
+                                            <!-- 坐标轴 -->
+                                            <g stroke="#080100" stroke-width="2">
+                                                <line x1="50" y1="450" x2="975" y2="450" marker-end="url(#arrowhead1)"/> <!-- X轴 -->
+                                                <line x1="50" y1="450" x2="50" y2="10" marker-end="url(#arrowhead1)"/>   <!-- Y轴 -->
+                                            </g>
+
+                                            <!-- 刻度值 -->
+                                            <g class="y-axis-labels"></g>
+                                            <g class="x-axis-labels"></g>
+                                            
+                                            <!-- 轴标题 -->
+                                            <text x="500" y="490" fill="#3498db" text-anchor="middle" font-size="16">压力层/hPa</text>
+                                            <text x="20" y="250" fill="#3498db" text-anchor="middle" font-size="16" transform="rotate(-90,20,250)">湿度/%</text>
+                                            
+                                            <!-- 数据点组1（折线图） -->
+                                            <polyline class="line1" fill="none" stroke="#00d2ff" stroke-width="4" />
+                                            
+                                            <!-- 数据点组2（折线图） -->
+                                            <polyline class="line2" fill="none" stroke="#ff6b6b" stroke-width="4" />
+                                            
+                                            <!-- 数据点组1（散点） -->
+                                            <g class="points1"></g>
+                                            
+                                            <!-- 数据点组2（散点） -->
+                                            <g class="points2"></g>
+                                        </svg>
+
+                                        <div class="legend">
+                                            <div class="legend-item">
+                                                <div class="legend-color" style="background: #00d2ff;"></div>
+                                                <span>预测值</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color" style="background: #ff6b6b;"></div>
+                                                <span>真值</span>
+                                            </div>
+                                        </div>
+
+                                        <p class="test-case-description"></p>
+                                    </div>
+
+                                    <div class="tooltip"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 海表温度 -->
+                <div id="sst" class="tab-pane">
+                    <div class="tab-title">
+                        <i class="fas fa-home"></i>
+                        <h1>海表温度</h1>
+                    </div>
+
+                    <div class="input-grid"> 
+                        <div class="input-left-column">
+                            <div class="input_parameters"> 
+                                <div class="parameter">
+                                    <div>
+                                        <label class="parameter_label">地区：</label>
+                                        <select class="sst-location-select custom-checkbox" name="location">
+                                            <option value="south">南海</option>
+                                            <option value="east">东海</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="parameter">
+                                    <label class="parameter_label">纬度：</label>
+                                    <select class="latitude-select custom-checkbox"></select>
+                                    <label class="parameter_label">经度：</label>
+                                    <select class="longitude-select custom-checkbox"></select>
+                                </div>
+                            </div> 
+
+                            <div class="input_parameters">
+                                <div class="parameter">
+                                    <div class="input-start-datetime">
+                                        <label class="parameter_label">输入数据开始时间：</label>
+                                        <t-date-picker class="input-start-date custom-checkbox"
+                                            v-model="timeValue"
+                                            size="small"
+                                            default-value=start_date
+                                            :disable-date="{ before: '2023-03-02', after: '2023-10-30' }"
+                                            enable-time-picker
+                                            :time-picker-props="{format: 'HH:mm:ss', steps: [1,15,60]}"
+                                            :presets="{'测试用例1':'2023-05-01 10:00', '测试用例2':'2023-06-01 12:00'}"
+                                            @change="updatePredictTime"
+                                        ></t-date-picker>
+                                    </div>       
+                                </div>     
+                                
+                                <div class="parameter">
+                                    <div>
+                                        <label class="parameter_label">预测时间：</label>
+                                        <select class="predict-time custom-checkbox"></select>
+                                    </div>
+                                </div>  
+                            </div>
+
+                        </div>
+
+                        <div class="input-right-column">
+                            <div class="input_parameters">
+                                <div class="parameter">
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" id="need-prompt-sst" class="need-prompt">
+                                        <label for="need-prompt-sst">使用南海浮标实测数据作为真值</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="input_parameters">
+                                <div class="parameter">
+                                    <div>
+                                        <label class="parameter_label">测试用例：</label>
+                                        <select class="test-cases custom-checkbox" style="height: 26px;"></select>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+
+<!-- 
+                    <div class="input_parameters">
+                        <div class="parameter">
+                            <div>
+                                <label class="parameter_label">地区：</label>
+                                <select class="sst-location-select custom-checkbox" name="location">
+                                    <option value="south">南海</option>
+                                    <option value="east">东海</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="parameter">
+                            <div class="checkbox-container">
+                                <input type="checkbox" id="need-prompt-sst" class="need-prompt">
+                                <label for="need-prompt-sst">使用实测数据作为真值</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input_parameters">
+                        <div class="parameter">
+                            <div class="input-start-datetime">
+                                <label class="parameter_label">输入数据开始时间：</label>
+                                <t-date-picker class="input-start-date custom-checkbox"
+                                    v-model="timeValue"
+                                    size="small"
+                                    default-value=start_date
+                                    :disable-date="{ before: '2023-03-02', after: '2023-10-30' }"
+                                    enable-time-picker
+                                    :time-picker-props="{format: 'HH:mm:ss', steps: [1,15,60]}"
+                                    :presets="{'示例1':'2023-05-01 10:00', '示例2':'2023-06-01 12:00'}"
+                                    @change="updatePredictTime"
+                                ></t-date-picker>
+                            </div>       
+                        </div>                        
+
+                        <div class="parameter">
+                            <div>
+                                <label class="parameter_label">预测时间：</label>
+                                <select class="predict-time custom-checkbox"></select>
+                            </div>
+                        </div>  
+                    </div> -->
+
+                    <div class="sst-content-grid">
+                        <div class="left-column">
+                            <div class="card">
+                                <button class="sst-inquire-button inquire-button" data-name="check">预测</button>
+                            </div>
+                            <div class="card">
+                                <button class="sst-inquire-button inquire-button" data-name="forward">前一帧</button>
+                            </div>
+                            <div class="card">
+                                <button class="sst-inquire-button inquire-button" data-name="backward">后一帧</button>
+                            </div>
+                            <div class="card">
+                                <div class="data-description"></div>
+                            </div>
+                        </div> 
+                        <div class="right-column"> 
+                            <div class="card placeholding-in-rightcolumn"></div>
+                            <div class="img-container"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 降水强度 -->
+                 <div id="precipitation" class="tab-pane">
+                    <div class="tab-title">
+                        <i class="fas fa-home"></i>
+                        <h1>降水强度</h1>
+                    </div>
+
+                    <div class="input-grid"> 
+                        <div class="input-left-column">
+                            <div class="input_parameters"> 
+                                <div class="parameter">
+                                    <div>
+                                        <label class="parameter_label">地区：</label>
+                                        <select class="sst-location-select custom-checkbox" name="location">
+                                            <option value="south">南海</option>
+                                            <option value="east">东海</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="parameter">
+                                    <label class="parameter_label">纬度：</label>
+                                    <select class="latitude-select custom-checkbox"></select>
+                                    <label class="parameter_label">经度：</label>
+                                    <select class="longitude-select custom-checkbox"></select>
+                                </div>
+                            </div> 
+
+                            <div class="input_parameters">
+                                <div class="parameter">
+                                    <div class="input-start-datetime">
+                                        <label class="parameter_label">输入数据开始时间：</label>
+                                        <t-date-picker class="input-start-date custom-checkbox"
+                                            v-model="timeValue"
+                                            size="small"
+                                            default-value=start_date
+                                            :disable-date="{ before: '2023-03-02', after: '2023-10-30' }"
+                                            enable-time-picker
+                                            :time-picker-props="{format: 'HH:mm:ss', steps: [1,15,60]}"
+                                            :presets="{'测试用例1':'2023-05-01 10:00', '测试用例2':'2023-06-01 12:00'}"
+                                            @change="updatePredictTime"
+                                        ></t-date-picker>
+                                    </div>       
+                                </div>     
+                                
+                                <div class="parameter">
+                                    <div>
+                                        <label class="parameter_label">预测时间：</label>
+                                        <select class="predict-time custom-checkbox"></select>
+                                    </div>
+                                </div>  
+                            </div>
+
+                        </div>
+
+                        <div class="input-right-column">
+                            <div class="input_parameters">
+                                <div class="parameter">
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" id="need-prompt-precipitation" class="need-prompt">
+                                        <label for="need-prompt-precipitation">使用南海浮标实测数据作为真值</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="input_parameters">
+                                <div class="parameter">
+                                    <div>
+                                        <label class="parameter_label">测试用例：</label>
+                                        <select class="test-cases custom-checkbox" style="height: 26px;"></select>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sst-content-grid">
+                        <div class="left-column">
+                            <div class="card">
+                                <button class="sst-inquire-button inquire-button" data-name="check">预测</button>
+                            </div>
+                            <div class="card">
+                                <button class="sst-inquire-button inquire-button" data-name="forward">前一帧</button>
+                            </div>
+                            <div class="card">
+                                <button class="sst-inquire-button inquire-button" data-name="backward">后一帧</button>
+                            </div>
+                            <div class="card">
+                                <div class="data-description"></div>
+                            </div>
+                        </div> 
+                        <div class="right-column"> 
+                            <div class="card placeholding-in-rightcolumn"></div>
+                            <div class="img-container"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 云光学厚度 -->
+                 <div id="cloud" class="tab-pane">
+                    <div class="tab-title">
+                        <i class="fas fa-home"></i>
+                        <h1>云光学厚度</h1>
+                    </div>
+
+                    <div class="input-grid"> 
+                        <div class="input-left-column">
+                            <div class="input_parameters"> 
+                                <div class="parameter">
+                                    <div>
+                                        <label class="parameter_label">地区：</label>
+                                        <select class="sst-location-select custom-checkbox" name="location">
+                                            <option value="south">南海</option>
+                                            <option value="east">东海</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="parameter">
+                                    <label class="parameter_label">纬度：</label>
+                                    <select class="latitude-select custom-checkbox"></select>
+                                    <label class="parameter_label">经度：</label>
+                                    <select class="longitude-select custom-checkbox"></select>
+                                </div>
+                            </div> 
+
+                            <div class="input_parameters">
+                                <div class="parameter">
+                                    <div class="input-start-datetime">
+                                        <label class="parameter_label">输入数据开始时间：</label>
+                                        <t-date-picker class="input-start-date custom-checkbox"
+                                            v-model="timeValue"
+                                            size="small"
+                                            default-value=start_date
+                                            :disable-date="{ before: '2023-03-02', after: '2023-10-30' }"
+                                            enable-time-picker
+                                            :time-picker-props="{format: 'HH:mm:ss', steps: [1,15,60]}"
+                                            :presets="{'测试用例1':'2023-05-01 10:00', '测试用例2':'2023-06-01 12:00'}"
+                                            @change="updatePredictTime"
+                                        ></t-date-picker>
+                                    </div>       
+                                </div>     
+                                
+                                <div class="parameter">
+                                    <div>
+                                        <label class="parameter_label">预测时间：</label>
+                                        <select class="predict-time custom-checkbox"></select>
+                                    </div>
+                                </div>  
+                            </div>
+
+                        </div>
+
+                        <div class="input-right-column">
+                            <div class="input_parameters">
+                                <div class="parameter">
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" id="need-prompt-cloud" class="need-prompt">
+                                        <label for="need-prompt-cloud">使用南海浮标实测数据作为真值</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="input_parameters">
+                                <div class="parameter">
+                                    <div>
+                                        <label class="parameter_label">测试用例：</label>
+                                        <select class="test-cases custom-checkbox" style="height: 26px;"></select>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sst-content-grid">
+                        <div class="left-column">
+                            <div class="card">
+                                <button class="sst-inquire-button inquire-button" data-name="check">预测</button>
+                            </div>
+                            <div class="card">
+                                <button class="sst-inquire-button inquire-button" data-name="forward">前一帧</button>
+                            </div>
+                            <div class="card">
+                                <button class="sst-inquire-button inquire-button" data-name="backward">后一帧</button>
+                            </div>
+                            <div class="card">
+                                <div class="data-description"></div>
+                            </div>
+                        </div> 
+                        <div class="right-column"> 
+                            <div class="card placeholding-in-rightcolumn"></div>
+                            <div class="img-container"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 气溶胶光学厚度 -->
+                 <div id="aerosol" class="tab-pane">
+                    <div class="tab-title">
+                        <i class="fas fa-home"></i>
+                        <h1>气溶胶光学厚度</h1>
+                    </div>
+
+                    <div class="input-grid"> 
+                        <div class="input-left-column">
+                            <div class="input_parameters"> 
+                                <div class="parameter">
+                                    <div>
+                                        <label class="parameter_label">地区：</label>
+                                        <select class="sst-location-select custom-checkbox" name="location">
+                                            <option value="south">南海</option>
+                                            <option value="east">东海</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="parameter">
+                                    <label class="parameter_label">纬度：</label>
+                                    <select class="latitude-select custom-checkbox"></select>
+                                    <label class="parameter_label">经度：</label>
+                                    <select class="longitude-select custom-checkbox"></select>
+                                </div>
+                            </div> 
+
+                            <div class="input_parameters">
+                                <div class="parameter">
+                                    <div class="input-start-datetime">
+                                        <label class="parameter_label">输入数据开始时间：</label>
+                                        <t-date-picker class="input-start-date custom-checkbox"
+                                            v-model="timeValue"
+                                            size="small"
+                                            default-value=start_date
+                                            :disable-date="{ before: '2023-03-02', after: '2023-10-30' }"
+                                            enable-time-picker
+                                            :time-picker-props="{format: 'HH:mm:ss', steps: [1,15,60]}"
+                                            :presets="{'测试用例1':'2023-05-01 10:00', '测试用例2':'2023-06-01 12:00'}"
+                                            @change="updatePredictTime"
+                                        ></t-date-picker>
+                                    </div>       
+                                </div>     
+                                
+                                <div class="parameter">
+                                    <div>
+                                        <label class="parameter_label">预测时间：</label>
+                                        <select class="predict-time custom-checkbox"></select>
+                                    </div>
+                                </div>  
+                            </div>
+
+                        </div>
+
+                        <div class="input-right-column">
+                            <div class="input_parameters">
+                                <div class="parameter">
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" id="need-prompt-aerosol" class="need-prompt">
+                                        <label for="need-prompt-aerosol">使用南海浮标实测数据作为真值</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="input_parameters">
+                                <div class="parameter">
+                                    <div>
+                                        <label class="parameter_label">测试用例：</label>
+                                        <select class="test-cases custom-checkbox" style="height: 26px;"></select>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sst-content-grid">
+                        <div class="left-column">
+                            <div class="card">
+                                <button class="sst-inquire-button inquire-button" data-name="check">预测</button>
+                            </div>
+                            <div class="card">
+                                <button class="sst-inquire-button inquire-button" data-name="forward">前一帧</button>
+                            </div>
+                            <div class="card">
+                                <button class="sst-inquire-button inquire-button" data-name="backward">后一帧</button>
+                            </div>
+                            <div class="card">
+                                <div class="data-description"></div>
+                            </div>
+                        </div> 
+                        <div class="right-column"> 
+                            <div class="card placeholding-in-rightcolumn"></div>
+                            <div class="img-container"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <!-- 半透明遮罩 -->
+        <div id="loading-overlay">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">处理中，请稍候...</div>
+        </div>
+    </body>
+</html>
